@@ -17,8 +17,12 @@ public class JwtUtils {
         this.secretKey = new SecretKeySpec(jwtSecret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
-    public String getEmail(String accessToken) {
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(accessToken).getPayload().get("email", String.class);
+    public String getEmail(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("email", String.class);
+    }
+
+    public Boolean isExpired(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
     public JwtInfo generateJwtToken(String email) {
