@@ -14,17 +14,17 @@ public class UserEntity {
     private Long userId;
 
     @Column(nullable = false)
-    private String email;
+    private String username;
 
     @Column(nullable = false)
     private String password;
 
     @Builder
     public UserEntity(
-            String email,
+            String username,
             String password
     ) {
-        this.email = email;
+        this.username = username;
         this.password = password;
     }
 

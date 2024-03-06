@@ -17,20 +17,20 @@ public class JwtUtils {
         this.secretKey = new SecretKeySpec(jwtSecret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
-    public String getEmail(String token) {
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("email", String.class);
+    public String getUsername(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("username", String.class);
     }
 
     public Boolean isExpired(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    public JwtInfo generateJwtToken(String email) {
+    public JwtInfo generateJwtToken(String username) {
         Date currentTime = new Date(System.currentTimeMillis());
         Date expireTime = new Date(System.currentTimeMillis() + 86400000);
 
         String accessToken = Jwts.builder()
-                .claim("email", email)
+                .claim("username", username)
                 .issuedAt(currentTime)
                 .expiration(expireTime)
                 .signWith(secretKey)

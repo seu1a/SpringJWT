@@ -18,7 +18,7 @@ public class UserService {
 
         userRepository.save(
                 UserEntity.builder()
-                        .email(registerDTO.getEmail())
+                        .username(registerDTO.getUsername())
                         .password(registerDTO.getPassword())
                         .build()
         );
