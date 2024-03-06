@@ -2,6 +2,7 @@ package kr.seula.springjwt.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity(name="userTable")
@@ -18,6 +19,7 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
+    @Builder
     public UserEntity(
             String email,
             String password
