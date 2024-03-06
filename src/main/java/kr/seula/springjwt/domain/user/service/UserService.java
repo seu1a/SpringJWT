@@ -15,11 +15,12 @@ public class UserService {
     private final UserRepository userRepository;
 
     public void register(RegisterDTO registerDTO) {
+
         userRepository.save(
-                new UserEntity(
-                        registerDTO.getEmail(),
-                        registerDTO.getPassword()
-                )
+                UserEntity.builder()
+                        .email(registerDTO.getEmail())
+                        .password(registerDTO.getPassword())
+                        .build()
         );
     }
 
