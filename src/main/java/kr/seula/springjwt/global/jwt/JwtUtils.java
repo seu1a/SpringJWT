@@ -17,6 +17,10 @@ public class JwtUtils {
         this.secretKey = new SecretKeySpec(jwtSecret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
+    public String getEmail(String accessToken) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(accessToken).getPayload().get("email", String.class);
+    }
+
     public JwtInfo generateJwtToken(String email) {
         Date currentTime = new Date(System.currentTimeMillis());
         Date expireTime = new Date(System.currentTimeMillis() + 86400000);
