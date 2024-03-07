@@ -3,8 +3,10 @@ package kr.seula.springjwt.domain.user.entity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Entity(name="userTable")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
