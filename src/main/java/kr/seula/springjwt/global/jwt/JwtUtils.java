@@ -1,9 +1,15 @@
 package kr.seula.springjwt.global.jwt;
 
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -15,9 +21,11 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
+    private final UserDetailsService userDetailsService;
     private final SecretKey secretKey;
 
-    public JwtUtils(@Value("${jwt.secret}") String jwtSecret) {
+    public JwtUtils(UserDetailsService userDetailsService, @Value("${jwt.secret}") String jwtSecret) {
+        this.userDetailsService = userDetailsService;
         this.secretKey = new SecretKeySpec(jwtSecret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
@@ -25,27 +33,40 @@ public class JwtUtils {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("username", String.class);
     }
 
+    public String getRole(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
+    }
+
     public Boolean isExpired(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
     public JwtInfo generateJwtToken(String username, String role) {
-        Date currentTime = new Date(System.currentTimeMillis());
-        Date expireTime = new Date(System.currentTimeMillis() + 86400000);
+        long now = new Date().getTime();
+        long day = 1000L * 60 * 60 * 24;
+        long week = day * 7;
 
         String accessToken = Jwts.builder()
                 .claim("username", username)
                 .claim("role", role)
-                .issuedAt(currentTime)
-                .expiration(expireTime)
+                .issuedAt(new Date(now))
+                .expiration(new Date(now + day))
                 .signWith(secretKey)
                 .compact();
 
-        return new JwtInfo(accessToken);
+        String refreshToken = Jwts.builder()
+                .claim("username", username)
+                .claim("role", role)
+                .issuedAt(new Date(now))
+                .expiration(new Date(now + week))
+                .signWith(secretKey)
+                .compact();
+
+        return new JwtInfo(accessToken, refreshToken);
     }
 
     public String getToken(HttpServletRequest request) {
-        String token = request.getHeader("Authoriztion");
+        String token = request.getHeader("Authorization");
 
         if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
             return token.substring(7);
@@ -54,8 +75,16 @@ public class JwtUtils {
         }
     }
 
-    public Authentication getAuthentication() {
+    public Authentication getAuthentication(String token) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(getUsername(token));
 
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    }
+
+    public JwtInfo refreshToken(String token) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(getUsername(token));
+
+        return generateJwtToken(getUsername(token), getRole(token));
     }
 
 }
