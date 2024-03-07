@@ -3,6 +3,7 @@ package kr.seula.springjwt.global.jwt;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -28,12 +29,13 @@ public class JwtUtils {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    public JwtInfo generateJwtToken(String username) {
+    public JwtInfo generateJwtToken(String username, String role) {
         Date currentTime = new Date(System.currentTimeMillis());
         Date expireTime = new Date(System.currentTimeMillis() + 86400000);
 
         String accessToken = Jwts.builder()
                 .claim("username", username)
+                .claim("role", role)
                 .issuedAt(currentTime)
                 .expiration(expireTime)
                 .signWith(secretKey)
@@ -50,6 +52,10 @@ public class JwtUtils {
         } else {
             return null;
         }
+    }
+
+    public Authentication getAuthentication() {
+
     }
 
 }
