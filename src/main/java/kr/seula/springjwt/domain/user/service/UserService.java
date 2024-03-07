@@ -48,14 +48,29 @@ public class UserService {
         }
     }
 
-    public void register(RegisterDTO registerDTO) {
-        userRepository.save(
-                UserEntity.builder()
-                        .username(registerDTO.getUsername())
-                        .password(registerDTO.getPassword())
-                        .role("ROLE_USER")
-                        .build()
-        );
+    public BaseResponse<?> register(RegisterDTO registerDTO) {
+        if (!userRepository.existsByUsername(registerDTO.getUsername())) {
+            userRepository.save(
+                    UserEntity
+                            .builder()
+                            .username(registerDTO.getUsername())
+                            .role("ROLE_USER")
+                            .password(registerDTO.getPassword())
+                            .build()
+            );
+
+            return new BaseResponse<>(
+                    true,
+                    "회원가입 성공",
+                    new ArrayList<>()
+            );
+        } else {
+            return new BaseResponse<>(
+                    false,
+                    "회원가입 실패 (이미 존재함)",
+                    new ArrayList<>()
+            );
+        }
     }
 
 }
