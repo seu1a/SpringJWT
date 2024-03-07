@@ -2,6 +2,7 @@ package kr.seula.springjwt.domain.user.service;
 
 import jakarta.transaction.Transactional;
 import kr.seula.springjwt.domain.user.dto.LoginDTO;
+import kr.seula.springjwt.domain.user.dto.RefreshDTO;
 import kr.seula.springjwt.domain.user.dto.RegisterDTO;
 import kr.seula.springjwt.domain.user.entity.UserEntity;
 import kr.seula.springjwt.domain.user.repository.UserRepository;
@@ -71,6 +72,16 @@ public class UserService {
                     new ArrayList<>()
             );
         }
+    }
+
+    public BaseResponse<?> refresh(RefreshDTO refreshToken) {
+        JwtInfo jwtInfo = jwtUtils.refreshToken(refreshToken.getRefreshToken());
+
+        return new BaseResponse<>(
+                true,
+                "토큰 재발급 성공",
+                jwtInfo
+        );
     }
 
 }
