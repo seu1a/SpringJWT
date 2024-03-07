@@ -3,6 +3,8 @@ package kr.seula.springjwt.domain.user.controller;
 import kr.seula.springjwt.domain.user.dto.LoginDTO;
 import kr.seula.springjwt.domain.user.dto.RegisterDTO;
 import kr.seula.springjwt.domain.user.service.UserService;
+import kr.seula.springjwt.global.dto.BaseResponse;
+import kr.seula.springjwt.global.jwt.JwtInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +17,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("login")
-    public ResponseEntity<String> login(LoginDTO loginDTO) {
-        return ResponseEntity.ok("login successful");
+    public ResponseEntity<BaseResponse<?>> login(@RequestBody LoginDTO loginDTO) {
+        return ResponseEntity.ok(userService.login(loginDTO));
     }
 
     @PostMapping("register")
@@ -24,6 +26,5 @@ public class UserController {
         userService.register(registerDTO);
         return ResponseEntity.ok("register successful");
     }
-
 
 }
