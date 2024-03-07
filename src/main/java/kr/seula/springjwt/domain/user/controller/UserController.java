@@ -22,9 +22,8 @@ public class UserController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody RegisterDTO registerDTO) {
-        userService.register(registerDTO);
-        return ResponseEntity.ok("register successful");
+    public ResponseEntity<BaseResponse<?>> register(@RequestBody RegisterDTO registerDTO) {
+        return ResponseEntity.ok(userService.register(registerDTO));
     }
 
 }
