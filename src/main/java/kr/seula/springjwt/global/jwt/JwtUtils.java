@@ -62,12 +62,20 @@ public class JwtUtils {
                 .signWith(secretKey)
                 .compact();
 
-        return new JwtInfo(accessToken, refreshToken);
+        return new JwtInfo("Bearer " + accessToken, "Bearer " + refreshToken);
     }
 
     public String getToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
 
+        if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+            return token.substring(7);
+        } else {
+            return null;
+        }
+    }
+
+    public String getToken(String token) {
         if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
             return token.substring(7);
         } else {
@@ -81,8 +89,8 @@ public class JwtUtils {
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 
-    public JwtInfo refreshToken(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(getUsername(token));
+    public JwtInfo refreshToken(String refreshToken) {
+        String token = getToken(refreshToken);
 
         return generateJwtToken(getUsername(token), getRole(token));
     }
