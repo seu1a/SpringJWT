@@ -11,4 +11,6 @@ public class JwtInfo {
 
     private String accessToken;
 
+    private String refreshToken;
+
 }
