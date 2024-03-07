@@ -20,6 +20,7 @@ public class UserService {
                 UserEntity.builder()
                         .username(registerDTO.getUsername())
                         .password(registerDTO.getPassword())
+                        .role("ROLE_USER")
                         .build()
         );
     }
