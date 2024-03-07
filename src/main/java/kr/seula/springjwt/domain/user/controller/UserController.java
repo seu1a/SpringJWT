@@ -1,6 +1,7 @@
 package kr.seula.springjwt.domain.user.controller;
 
 import kr.seula.springjwt.domain.user.dto.LoginDTO;
+import kr.seula.springjwt.domain.user.dto.RefreshDTO;
 import kr.seula.springjwt.domain.user.dto.RegisterDTO;
 import kr.seula.springjwt.domain.user.service.UserService;
 import kr.seula.springjwt.global.dto.BaseResponse;
@@ -24,6 +25,11 @@ public class UserController {
     @PostMapping("register")
     public ResponseEntity<BaseResponse<?>> register(@RequestBody RegisterDTO registerDTO) {
         return ResponseEntity.ok(userService.register(registerDTO));
+    }
+
+    @PostMapping("refresh")
+    public ResponseEntity<BaseResponse<?>> refresh(@RequestBody RefreshDTO refreshToken) {
+        return ResponseEntity.ok(userService.refresh(refreshToken));
     }
 
 }
