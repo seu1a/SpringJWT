@@ -19,13 +19,18 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String role;
+
     @Builder
     public UserEntity(
             String username,
-            String password
+            String password,
+            String role
     ) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
 }
