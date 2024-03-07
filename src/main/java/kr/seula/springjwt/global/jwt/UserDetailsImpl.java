@@ -20,7 +20,7 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
-        authorities.add(userEntity::getRole);
+        authorities.add((GrantedAuthority) userEntity::getRole);
 
         return authorities;
     }
