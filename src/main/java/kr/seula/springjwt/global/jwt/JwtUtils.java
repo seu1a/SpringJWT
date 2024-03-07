@@ -1,14 +1,17 @@
 package kr.seula.springjwt.global.jwt;
 
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+@Component
 public class JwtUtils {
 
     private final SecretKey secretKey;
@@ -37,6 +40,16 @@ public class JwtUtils {
                 .compact();
 
         return new JwtInfo(accessToken);
+    }
+
+    public String getToken(HttpServletRequest request) {
+        String token = request.getHeader("Authoriztion");
+
+        if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+            return token.substring(7);
+        } else {
+            return null;
+        }
     }
 
 }
