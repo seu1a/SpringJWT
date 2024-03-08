@@ -1,6 +1,6 @@
 package kr.seula.springjwt.global.jwt;
 
-import kr.seula.springjwt.domain.user.entity.UserEntity;
+import kr.seula.springjwt.domain.member.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

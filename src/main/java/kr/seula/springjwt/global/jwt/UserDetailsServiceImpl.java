@@ -1,8 +1,8 @@
 package kr.seula.springjwt.global.jwt;
 
 import jakarta.persistence.EntityNotFoundException;
-import kr.seula.springjwt.domain.user.entity.UserEntity;
-import kr.seula.springjwt.domain.user.repository.UserRepository;
+import kr.seula.springjwt.domain.member.entity.UserEntity;
+import kr.seula.springjwt.domain.member.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,11 +1,11 @@
-package kr.seula.springjwt.domain.user.service;
+package kr.seula.springjwt.domain.member.service;
 
 import jakarta.transaction.Transactional;
-import kr.seula.springjwt.domain.user.dto.LoginDTO;
-import kr.seula.springjwt.domain.user.dto.RefreshDTO;
-import kr.seula.springjwt.domain.user.dto.RegisterDTO;
-import kr.seula.springjwt.domain.user.entity.UserEntity;
-import kr.seula.springjwt.domain.user.repository.UserRepository;
+import kr.seula.springjwt.domain.member.dto.LoginDTO;
+import kr.seula.springjwt.domain.member.dto.RefreshDTO;
+import kr.seula.springjwt.domain.member.dto.RegisterDTO;
+import kr.seula.springjwt.domain.member.entity.UserEntity;
+import kr.seula.springjwt.domain.member.repository.UserRepository;
 import kr.seula.springjwt.global.dto.BaseResponse;
 import kr.seula.springjwt.global.jwt.JwtInfo;
 import kr.seula.springjwt.global.jwt.JwtUtils;
@@ -15,8 +15,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @Service
 @Transactional

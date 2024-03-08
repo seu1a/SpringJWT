@@ -1,4 +1,4 @@
-package kr.seula.springjwt.domain.user.dto;
+package kr.seula.springjwt.domain.member.dto;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
-package kr.seula.springjwt.domain.user.repository;
+package kr.seula.springjwt.domain.member.repository;
 
-import kr.seula.springjwt.domain.user.entity.UserEntity;
+import kr.seula.springjwt.domain.member.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

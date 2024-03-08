@@ -1,4 +1,4 @@
-package kr.seula.springjwt.domain.user.entity;
+package kr.seula.springjwt.domain.member.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

@@ -1,9 +1,9 @@
-package kr.seula.springjwt.domain.user.controller;
+package kr.seula.springjwt.domain.member.controller;
 
-import kr.seula.springjwt.domain.user.dto.LoginDTO;
-import kr.seula.springjwt.domain.user.dto.RefreshDTO;
-import kr.seula.springjwt.domain.user.dto.RegisterDTO;
-import kr.seula.springjwt.domain.user.service.UserService;
+import kr.seula.springjwt.domain.member.dto.LoginDTO;
+import kr.seula.springjwt.domain.member.dto.RefreshDTO;
+import kr.seula.springjwt.domain.member.dto.RegisterDTO;
+import kr.seula.springjwt.domain.member.service.UserService;
 import kr.seula.springjwt.global.dto.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

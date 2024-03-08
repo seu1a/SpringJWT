@@ -1,11 +1,11 @@
-package kr.seula.springjwt.domain.user.dto;
+package kr.seula.springjwt.domain.member.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginDTO {
+public class RegisterDTO {
 
     private String username;
 
