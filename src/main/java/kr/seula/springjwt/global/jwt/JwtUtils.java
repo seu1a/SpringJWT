@@ -1,10 +1,7 @@
 package kr.seula.springjwt.global.jwt;
 
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +20,9 @@ public class JwtUtils {
 
     private final UserDetailsService userDetailsService;
     private final SecretKey secretKey;
+
+    @Value("${jwt.access-expired}") Long day;
+    @Value("${jwt.refresh-expired}") Long week;
 
     public JwtUtils(UserDetailsService userDetailsService, @Value("${jwt.secret}") String jwtSecret) {
         this.userDetailsService = userDetailsService;
@@ -43,8 +43,6 @@ public class JwtUtils {
 
     public JwtInfo generateJwtToken(String username, String role) {
         long now = new Date().getTime();
-        long day = 1000L * 60 * 60 * 24;
-        long week = day * 7;
 
         String accessToken = Jwts.builder()
                 .claim("username", username)
