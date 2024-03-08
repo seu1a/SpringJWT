@@ -5,7 +5,6 @@ import kr.seula.springjwt.domain.user.dto.RefreshDTO;
 import kr.seula.springjwt.domain.user.dto.RegisterDTO;
 import kr.seula.springjwt.domain.user.service.UserService;
 import kr.seula.springjwt.global.dto.BaseResponse;
-import kr.seula.springjwt.global.jwt.JwtInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
