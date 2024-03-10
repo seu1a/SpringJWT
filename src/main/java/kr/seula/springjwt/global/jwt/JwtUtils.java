@@ -2,7 +2,9 @@ package kr.seula.springjwt.global.jwt;
 
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,17 +18,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
+@EnableConfigurationProperties(JwtProperties.class)
 public class JwtUtils {
 
     private final UserDetailsService userDetailsService;
     private final SecretKey secretKey;
 
-    @Value("${jwt.access-expired}") Long day;
-    @Value("${jwt.refresh-expired}") Long week;
+    private final JwtProperties jwtProperties;
 
-    public JwtUtils(UserDetailsService userDetailsService, @Value("${jwt.secret}") String jwtSecret) {
+    public JwtUtils(UserDetailsService userDetailsService, JwtProperties jwtProperties) {
         this.userDetailsService = userDetailsService;
-        this.secretKey = new SecretKeySpec(jwtSecret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
+        this.jwtProperties = jwtProperties;
+        this.secretKey = new SecretKeySpec(this.jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
     public String getUsername(String token) {
@@ -48,7 +51,7 @@ public class JwtUtils {
                 .claim("username", username)
                 .claim("role", role)
                 .issuedAt(new Date(now))
-                .expiration(new Date(now + day))
+                .expiration(new Date(now + jwtProperties.getAccessExpired()))
                 .signWith(secretKey)
                 .compact();
 
@@ -56,7 +59,7 @@ public class JwtUtils {
                 .claim("username", username)
                 .claim("role", role)
                 .issuedAt(new Date(now))
-                .expiration(new Date(now + week))
+                .expiration(new Date(now + jwtProperties.getRefreshExpired()))
                 .signWith(secretKey)
                 .compact();
 
