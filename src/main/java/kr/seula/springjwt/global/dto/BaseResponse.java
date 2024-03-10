@@ -10,6 +10,7 @@ import lombok.Setter;
 public class BaseResponse<T> {
 
     private boolean success;
+    private int code;
     private String message;
     private T data;
 
