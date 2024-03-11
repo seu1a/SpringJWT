@@ -31,6 +31,7 @@ public class UserService {
         if (userDetails.getPassword().equals(loginDTO.getPassword())) {
             return new BaseResponse<>(
                     true,
+                    200,
                     "토큰 발급 성공",
                     jwtUtils.generateJwtToken(
                             loginDTO.getUsername(),
@@ -41,6 +42,7 @@ public class UserService {
         } else {
             return new BaseResponse<>(
                     false,
+                    400,
                     "사용자 인증 실패",
                     new ArrayList<>()
             );
@@ -60,12 +62,14 @@ public class UserService {
 
             return new BaseResponse<>(
                     true,
+                    200,
                     "회원가입 성공",
                     new ArrayList<>()
             );
         } else {
             return new BaseResponse<>(
                     false,
+                    400,
                     "회원가입 실패 (이미 존재함)",
                     new ArrayList<>()
             );
@@ -77,6 +81,7 @@ public class UserService {
 
         return new BaseResponse<>(
                 true,
+                200,
                 "토큰 재발급 성공",
                 jwtInfo
         );
